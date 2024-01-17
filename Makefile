@@ -1,21 +1,30 @@
-sourcefiles = 	so_long.c
+NAME	:= kroeg
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+LIBMLX	:= ./MLX42
 
-objects =		$(sourcefiles:.c=.o)
+HEADERS	:= -I ./include -I $(LIBMLX)/include
+LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+SRCS	:= so_long.c #$(shell find ./src -iname "*.c")
+OBJS	:= ${SRCS:.c=.o}
 
-NAME =			so_long.a
+all: libmlx $(NAME)
 
-all:			$(NAME)
-
-$(NAME):		$(objects)
-	@ar rcs so_long.a $(objects)
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 %.o: %.c
-	cc -Wall -Wextra -Werror -c $< -o $@
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
+
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
-	@rm -f $(objects)
+	@rm -rf $(OBJS)
+	@rm -rf $(LIBMLX)/build
 
-fclean:
-	@rm -f $(objects) $(NAME)
+fclean: clean
+	@rm -rf $(NAME)
 
-re: 			fclean all
+re: clean all
+
+.PHONY: all, clean, fclean, re, libmlx
