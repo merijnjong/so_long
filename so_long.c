@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:55 by mjong             #+#    #+#             */
-/*   Updated: 2024/01/18 18:19:45 by mjong            ###   ########.fr       */
+/*   Updated: 2024/01/23 18:25:18 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,24 @@ typedef struct
 	int	ypos;
 	int	width;
 	int	height;
+	mlx_image_t	player;
 } Player;
 
-void move_rectangle(Player *rect, int xdir, int ydir)
+void move_rectangle(Player *player, uint32_t xdir, uint32_t ydir)
 {
-    rect->xpos += xdir;
-    rect->ypos += ydir;
+    player->xpos += xdir;
+    player->ypos += ydir;
+	printf("xpos: %d\n", player->xpos);
+	printf("ypos: %d\n", player->ypos);
+	// printf("%s\n", "Rectangle moved!");
 }
 
-void ft_hooks(mlx_key_data_t keydata, Player *rect)
+void ft_hooks(mlx_key_data_t keydata, Player *player)
 {
 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 	{
-        int xdir;
-		int ydir;
+        uint32_t xdir;
+		uint32_t ydir;
 		
 		xdir = 0;
 		ydir = 0;
@@ -48,9 +52,9 @@ void ft_hooks(mlx_key_data_t keydata, Player *rect)
             ydir = 10;
         if (keydata.key == MLX_KEY_D)
             xdir = 10;
-        move_rectangle(rect, xdir, ydir);
+        move_rectangle(player, xdir, ydir);
     }
-	printf("Key pressed: %d\n", keydata.key);
+	// printf("Key pressed: %c\n", keydata.key);
 }
 
 mlx_image_t *ft_draw_rect(mlx_t *mlx, uint32_t width, uint32_t height, uint32_t color)
@@ -75,6 +79,7 @@ mlx_image_t *ft_draw_rect(mlx_t *mlx, uint32_t width, uint32_t height, uint32_t 
 		while (i++ < width - 1)
 			mlx_put_pixel(img, i, j, color);
 	}
+	printf("%s\n", "Rectangle printed!");
 	return (img);
 }
 
@@ -87,7 +92,7 @@ int32_t	main(void)
 	mlx = mlx_init(800, 400, "kroeg", true);
 	rect = ft_draw_rect(mlx, player.width, player.height, 0x70BFFF);
 	mlx_image_to_window(mlx, rect, player.xpos, player.ypos);
-	mlx_loop_hook(mlx, (void *)&ft_hooks, &player);
+	mlx_key_hook(mlx, (void *)&ft_hooks, &player);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
