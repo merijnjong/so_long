@@ -1,10 +1,10 @@
-NAME	:= kroeg
+NAME	:= starwars
 CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX	:= ./MLX42
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include
 LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS	:= so_long.c #$(shell find ./src -iname "*.c")
+SRCS	:= so_long_utils.c so_long.c get_next_line.c get_next_line_utils.c #$(shell find ./src -iname "*.c")
 OBJS	:= ${SRCS:.c=.o}
 
 all: libmlx $(NAME)
