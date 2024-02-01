@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/01/25 13:50:04 by mjong            ###   ########.fr       */
+/*   Updated: 2024/02/01 17:23:56 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 6
 # endif
+
+typedef struct	t_data
+{
+	int			xpos;
+	int			ypos;
+	int			width;
+	int			height;
+	mlx_t		*mlx;
+	mlx_image_t	*collectible;
+	mlx_image_t	*eexit;
+	mlx_image_t	*ffloor;
+	mlx_image_t	*player;
+	mlx_image_t	*wall;
+} Game;
 
 int		ft_strcmp(const char *s1, const char *s2);
 char	*get_next_line(int fd);
