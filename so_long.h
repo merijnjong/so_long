@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/02/01 17:23:56 by mjong            ###   ########.fr       */
+/*   Updated: 2024/02/06 15:20:43 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ typedef struct	t_data
 	int			ypos;
 	int			width;
 	int			height;
+	int			colnum;
+	int			exinum;
+	int			planum;
 	mlx_t		*mlx;
 	mlx_image_t	*collectible;
 	mlx_image_t	*eexit;
@@ -38,6 +41,7 @@ typedef struct	t_data
 } Game;
 
 int		ft_strcmp(const char *s1, const char *s2);
+int		ft_mapcheck(Game game);
 char	*get_next_line(int fd);
 char	*ft_strjoin2(char *s1, char *s2);
 int		ft_strlen2(const char *str);
