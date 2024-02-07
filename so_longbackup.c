@@ -5,115 +5,107 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 14:52:55 by mjong             #+#    #+#             */
-/*   Updated: 2024/02/01 17:20:57 by mjong            ###   ########.fr       */
+/*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
+/*   Updated: 2024/02/07 14:47:03 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-typedef struct
+void	ft_makeimg(struct t_data *game)
 {
-	int		xpos;
-	int		ypos;
-	int		width;
-	int		height;
-	mlx_t	*mlx;
-} Player;
+	mlx_texture_t	*c;
+	mlx_texture_t	*e;
+	mlx_texture_t	*f;
+	mlx_texture_t	*p;
+	mlx_texture_t	*w;
 
-typedef struct
-{
-	mlx_texture_t	*collectible;
-	mlx_texture_t	*eexit;
-	mlx_texture_t	*floor;
-	mlx_texture_t	*player;
-	mlx_texture_t	*wall;
-} Assets;
-
-Assets	ft_textures(void)
-{
-	Assets textures =
-	{
-		.collectible = mlx_load_png("./assets/collectible.png"),
-		.eexit = mlx_load_png("./assets/exit.png"),
-		.floor = mlx_load_png("./assets/floor.png"),
-		.player = mlx_load_png("./assets/player.png"),
-		.wall = mlx_load_png("./assets/wall.png"),
-	};
-	return (textures);
+	c = mlx_load_png("./assets/collectible.png");
+	e = mlx_load_png("./assets/exit.png");
+	f = mlx_load_png("./assets/floor.png");
+	p = mlx_load_png("./assets/player.png");
+	w = mlx_load_png("./assets/wall.png");
+	game->collectible = mlx_texture_to_image(game->mlx, c);
+	game->eexit = mlx_texture_to_image(game->mlx, e);
+	game->ffloor = mlx_texture_to_image(game->mlx, f);
+	game->player = mlx_texture_to_image(game->mlx, p);
+	game->wall = mlx_texture_to_image(game->mlx, w);
 }
 
-void	move_player(mlx_t *mlxp, Player *vader, uint32_t xdir, uint32_t ydir)
+void	move_player(struct t_data *game, uint32_t xdir, uint32_t ydir)
 {
-	uint32_t	prevxdir = vader->xpos;
-	uint32_t	prevydir = vader->ypos;
-	Assets textures = ft_textures();
+	uint32_t	prevxdir;
+	uint32_t	prevydir;
 
-	mlx_image_to_window(mlxp, mlx_texture_to_image(mlxp, textures.floor), prevxdir, prevydir);
-	vader->xpos += xdir;
-	vader->ypos += ydir;
-	printf("xpos: %d\n", vader->xpos);
-	printf("ypos: %d\n", vader->ypos);
+	prevxdir = game->xpos;
+	prevydir = game->ypos;
+	mlx_image_to_window(game->mlx, game->ffloor, prevxdir, prevydir);
+	game->xpos += xdir;
+	game->ypos += ydir;
+	printf("xpos: %d\n", game->xpos);
+	printf("ypos: %d\n", game->ypos);
+	// if (game->xpos != game->wall || game->ypos != game->wall)
+		mlx_image_to_window(game->mlx, game->player, game->xpos, game->ypos);
 }
 
-void	ft_hooks(mlx_key_data_t keydata, Player *player)
+void	ft_hooks(mlx_key_data_t keydata, struct t_data *game)
 {
 	uint32_t	xdir;
 	uint32_t	ydir;
 
 	xdir = 0;
 	ydir = 0;
-	Assets textures = ft_textures();
-	mlx_t *mlxp = player->mlx;
 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 	{
 		if (keydata.key == MLX_KEY_ESCAPE)
-		{
-			puts("EXIT");
-			exit(EXIT_SUCCESS);
-		}
+			mlx_close_window(game->mlx);
 		if (keydata.key == MLX_KEY_W)
-			ydir = -350;
+			ydir = -100;
 		if (keydata.key == MLX_KEY_A)
-			xdir = -350;
+			xdir = -100;
 		if (keydata.key == MLX_KEY_S)
-			ydir = 350;
+			ydir = 100;
 		if (keydata.key == MLX_KEY_D)
-			xdir = 350;
-		move_player(mlxp, player, xdir, ydir);
-		mlx_image_to_window(mlxp, mlx_texture_to_image(mlxp, textures.player), player->xpos, player->ypos);
+			xdir = 100;
+		move_player(game, xdir, ydir);
 	}
 }
 
-void	ft_makemap(mlx_t *mlx, char *map, Assets textures, int x, int y)
+void	ft_makemap(char *map, struct t_data *game, int x, int y)
 {
-	int i;
-
-	i = 0;
-	while (map[i] != '\n' && map[i] != '\0')
+	while (*map != '\n' && *map != '\0')
 	{
-		if (map[i] == 'C')
-			mlx_image_to_window(mlx, mlx_texture_to_image(mlx, textures.collectible), x, y);
-		if (map[i] == 'E')
-			mlx_image_to_window(mlx, mlx_texture_to_image(mlx, textures.eexit), x, y);
-		if (map[i] == '0')
-			mlx_image_to_window(mlx, mlx_texture_to_image(mlx, textures.floor), x, y);
-		if (map[i] == 'P')
-			mlx_image_to_window(mlx, mlx_texture_to_image(mlx, textures.player), x, y);
-		if (map[i] == '1')
-			mlx_image_to_window(mlx, mlx_texture_to_image(mlx, textures.wall), x, y);
-		i++;
-		x += 350;
+		if (*map == 'C')
+		{
+			mlx_image_to_window(game->mlx, game->collectible, x, y);
+			game->colnum += 1;
+		}
+		if (*map == 'E')
+		{
+			mlx_image_to_window(game->mlx, game->eexit, x, y);
+			game->exinum += 1;
+		}
+		if (*map == 'P')
+		{
+			mlx_image_to_window(game->mlx, game->player, x, y);
+			game->planum += 1;
+		}
+		if (*map == '0')
+			mlx_image_to_window(game->mlx, game->ffloor, x, y);
+		if (*map == '1')
+			mlx_image_to_window(game->mlx, game->wall, x, y);
+		map++;
+		x += 100;
 	}
 }
 
-void ft_filetomap(mlx_t *mlx, Assets textures)
+void	ft_filetomap(struct t_data *game)
 {
-	int x;
-	int y;
-	int fd;
-	int check;
-	char *map;
+	int		x;
+	int		y;
+	int		fd;
+	int		check;
+	char	*map;
 
 	check = 0;
 	y = 0;
@@ -125,11 +117,11 @@ void ft_filetomap(mlx_t *mlx, Assets textures)
 		{
 			check = 1;
 			free(map);
-			break;
+			break ;
 		}
 		x = 0;
-		ft_makemap(mlx, map, textures, x, y);
-		y += 350;
+		ft_makemap(map, game, x, y);
+		y += 100;
 		free(map);
 	}
 	close(fd);
@@ -138,15 +130,15 @@ void ft_filetomap(mlx_t *mlx, Assets textures)
 int32_t	main(void)
 {
 	mlx_t	*mlx;
-	
 	mlx = mlx_init(2100, 1400, "starwars", true);
-	Player player = {350, 350, 350, 350, mlx};
-	Assets textures = ft_textures();
+	Game game = {100, 100, 100, 100, 0, 0, 0, mlx, NULL, NULL, NULL, NULL, NULL};
 
-	ft_filetomap(mlx, textures);
-	mlx_image_to_window(mlx, mlx_texture_to_image(mlx, textures.player), player.xpos, player.ypos);
-	mlx_key_hook(mlx, (void *)&ft_hooks, &player);
+	ft_makeimg(&game);
+	ft_filetomap(&game);
+	if (ft_mapcheck(game) == 0)
+		mlx_close_window(game.mlx);
+	mlx_key_hook(mlx, (void *)&ft_hooks, &game);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

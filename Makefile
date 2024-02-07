@@ -1,13 +1,17 @@
 NAME	:= starwars
-CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast 
 LIBMLX	:= ./MLX42
+LIBFT := ./libft
 
-HEADERS	:= -I ./include -I $(LIBMLX)/include
-LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS	:= so_long_utils.c so_long.c get_next_line.c get_next_line_utils.c #$(shell find ./src -iname "*.c")
+HEADERS	:= -I ./include -I $(LIBMLX)/include -I$(LIBFT)
+LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm  $(LIBFT)/libft.a
+SRCS	:= so_long.c so_long_utils.c #$(shell find ./src -iname "*.c")
 OBJS	:= ${SRCS:.c=.o}
 
-all: libmlx $(NAME)
+all: libmlx libft $(NAME)
+
+libft:
+	@make -C $(LIBFT)
 
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
@@ -21,10 +25,13 @@ $(NAME): $(OBJS)
 clean:
 	@rm -rf $(OBJS)
 	@rm -rf $(LIBMLX)/build
+	@make clean -C $(LIBFT)
+	@rm -rf $(LIBMLX)/build
 
 fclean: clean
 	@rm -rf $(NAME)
+	@make fclean -C $(LIBFT)
 
 re: clean all
 
-.PHONY: all, clean, fclean, re, libmlx
+.PHONY: all, clean, fclean, re, libmlx, libft

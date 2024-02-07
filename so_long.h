@@ -6,13 +6,14 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/02/06 15:20:43 by mjong            ###   ########.fr       */
+/*   Updated: 2024/02/07 16:22:34 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 # include "MLX42/MLX42.h"
+# include "libft/libft.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -32,6 +33,7 @@ typedef struct	t_data
 	int			colnum;
 	int			exinum;
 	int			planum;
+	int			ylength;
 	mlx_t		*mlx;
 	mlx_image_t	*collectible;
 	mlx_image_t	*eexit;
