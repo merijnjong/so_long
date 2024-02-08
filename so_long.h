@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/02/07 16:22:34 by mjong            ###   ########.fr       */
+/*   Updated: 2024/02/08 14:21:13 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct	t_data
 	mlx_image_t	*ffloor;
 	mlx_image_t	*player;
 	mlx_image_t	*wall;
+	char		**two_d_map;
 } Game;
 
 int		ft_strcmp(const char *s1, const char *s2);

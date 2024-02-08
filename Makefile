@@ -1,11 +1,11 @@
 NAME	:= starwars
 CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast 
 LIBMLX	:= ./MLX42
-LIBFT := ./libft
+LIBFT 	:= ./libft
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I$(LIBFT)
 LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm  $(LIBFT)/libft.a
-SRCS	:= so_long.c so_long_utils.c #$(shell find ./src -iname "*.c")
+SRCS	:= so_long.c so_long_utils.c
 OBJS	:= ${SRCS:.c=.o}
 
 all: libmlx libft $(NAME)
