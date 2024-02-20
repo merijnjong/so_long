@@ -6,34 +6,22 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:53:38 by mjong             #+#    #+#             */
-/*   Updated: 2024/02/07 15:46:22 by mjong            ###   ########.fr       */
+/*   Updated: 2024/02/20 17:45:28 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_mapcheck(t_game *game)
 {
-	unsigned char	*str1;
-	unsigned char	*str2;
-	size_t			i;
-
-	str1 = (unsigned char *) s1;
-	str2 = (unsigned char *) s2;
-	i = 0;
-	while (str1[i] && str2[i])
-	{
-		if (str1[i] != str2[i])
-			return (str1[i] - str2[i]);
-		i++;
-	}
-	return (0);
-}
-
-int	ft_mapcheck(Game game)
-{
-	if (game.colnum < 1 || game.exinum != 1 || game.planum != 1)
+	if (game->colnum < 1 || game->exinum != 1 || game->planum != 1)
 		return (0);
 	else
 		return (1);
+}
+
+void ft_exitgame(t_game *game)
+{
+	free(game->two_d_map);
+	mlx_terminate(game->mlx);
 }

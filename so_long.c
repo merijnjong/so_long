@@ -6,24 +6,30 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/02/08 16:11:58 by mjong            ###   ########.fr       */
+/*   Updated: 2024/02/20 17:49:48 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	move_player(struct t_data *game, uint32_t xdir, uint32_t ydir)
+void	move_player(t_game *game, uint32_t xdir, uint32_t ydir)
 {
 	uint32_t	prevxdir;
 	uint32_t	prevydir;
-	char		nextchar;
 
 	prevxdir = game->xpos;
 	prevydir = game->ypos;
-	nextchar = game->two_d_map[game->ypos + ydir][game->xpos + xdir];
-	// printf("%c\n", nextchar);
-	if (nextchar != '1')
+	int x = (game->xpos + xdir) / 100;
+	int y = (game->ypos + ydir) / 100;
+	if (game->two_d_map[y][x] != '1')
 	{
+		if (game->two_d_map[y][x] == 'C')
+			game->colnum--;
+		if (game->two_d_map[y][x] == 'E' && game->colnum == 0)
+		{
+			ft_exitgame(game);
+			ft_printf("EXITED GAME SUCCESFULLY\n");
+		}
 		game->xpos += xdir;
 		game->ypos += ydir;
 		printf("xpos: %d\n", game->xpos);
@@ -31,18 +37,9 @@ void	move_player(struct t_data *game, uint32_t xdir, uint32_t ydir)
 		mlx_image_to_window(game->mlx, game->ffloor, prevxdir, prevydir);
 		mlx_image_to_window(game->mlx, game->player, game->xpos, game->ypos);
 	}
-	if (nextchar == '1')
-		ft_printf("CANNOT MOVE THERE IS A WALL THERE!\n");
-	if (nextchar == 'C')
-		ft_printf("PICKED UP COLLECTIBLE!\n");		
-	if (nextchar == 'E')
-	{
-		mlx_close_window(game->mlx);
-		ft_printf("YOU MADE IT!\n");
-	}
 }
 
-void	ft_hooks(mlx_key_data_t keydata, struct t_data *game)
+void	ft_hooks(mlx_key_data_t keydata, t_game *game)
 {
 	uint32_t	xdir;
 	uint32_t	ydir;
@@ -53,8 +50,8 @@ void	ft_hooks(mlx_key_data_t keydata, struct t_data *game)
 	{
 		if (keydata.key == MLX_KEY_ESCAPE)
 		{
-			mlx_close_window(game->mlx);
 			ft_printf("EXITED GAME SUCCESFULLY\n");
+			ft_exitgame(game);
 		}
 		if (keydata.key == MLX_KEY_W)
 			ydir = -100;
@@ -64,13 +61,15 @@ void	ft_hooks(mlx_key_data_t keydata, struct t_data *game)
 			ydir = 100;
 		if (keydata.key == MLX_KEY_D)
 			xdir = 100;
-		if(xdir || ydir)
+		if (xdir || ydir)
 			move_player(game, xdir, ydir);
 	}
 }
 
-void	ft_makemap(char indicator, struct t_data *game, int x, int y)
+void	ft_makemap(char indicator, t_game *game, int x, int y)
 {
+	x *= 100;
+	y *= 100;
 	if (indicator == 'C')
 	{
 		mlx_image_to_window(game->mlx, game->collectible, x, y);
@@ -85,6 +84,8 @@ void	ft_makemap(char indicator, struct t_data *game, int x, int y)
 	{
 		mlx_image_to_window(game->mlx, game->player, x, y);
 		game->planum += 1;
+		game->xpos = x;
+		game->ypos = y;
 	}
 	if (indicator == '0')
 		mlx_image_to_window(game->mlx, game->ffloor, x, y);
@@ -92,46 +93,43 @@ void	ft_makemap(char indicator, struct t_data *game, int x, int y)
 		mlx_image_to_window(game->mlx, game->wall, x, y);
 }
 
-int display_map(struct t_data *game)
+int display_map(t_game *game)
 {
-	int i = 0;
-	int j = 0;
 	int x = 0;
 	int y =	0;
-	int width = 0;
-	while(game->two_d_map[0][width])
-		width++;
-	while(j != game->ylength && i != width)
+	while (game->two_d_map[0][game->width])
+		game->width++;
+	// printf("H: %d - W: %d\n", game->ylength, game->width);
+	game->mlx = mlx_init(game->width * 100, game->ylength * 100, "starwars", true);
+	ft_makeimg(game);
+	while (y != game->ylength && x != game->width)
 	{
-		while(i != width)
+		while (x != game->width)
 		{
-			ft_makemap(game->two_d_map[j][i], game, x, y);
-			x += 100;
-			i++;
+			ft_makemap(game->two_d_map[y][x], game, x, y);
+			x++;
 		}
-		j++;
+		y++;
 		x = 0;
-		y += 100;
-		i = 0;
 	}
 	return (1);
 }
 
-char 	*ft_filetomap(struct t_data *game)
+char	*ft_filetomap(t_game *game)
 {
 	int		fd;
 	char	*map;
 	char	*temp;
-	
-	fd = open("swmap.ber", O_RDONLY);
+
+	fd = open("map.ber", O_RDONLY);
 	map = NULL;
 	if (fd < 0)
 		return (NULL);
-	while(1)
+	while (1)
 	{
 		temp = get_next_line(fd);
-		if(!temp)
-			break;
+		if (!temp)
+			break ;
 		game->ylength++;
 		map = ft_strjoin2(map, temp);
 	}
@@ -139,7 +137,7 @@ char 	*ft_filetomap(struct t_data *game)
 	return (map);
 }
 
-void	ft_makeimg(struct t_data *game)
+void	ft_makeimg(t_game *game)
 {
 	mlx_texture_t	*c;
 	mlx_texture_t	*e;
@@ -159,22 +157,62 @@ void	ft_makeimg(struct t_data *game)
 	game->wall = mlx_texture_to_image(game->mlx, w);
 }
 
+void	init(t_game *game)
+{
+	// game->xpos = 100;
+	// game->ypos = 100;
+	game->width = 0;
+	game->height = 0;
+	game->colnum = 0;
+	game->exinum = 0;
+	game->planum = 0;
+	game->ylength = 0;
+	game->mlx = NULL;
+	game->collectible = NULL;
+	game->eexit = NULL;
+	game->ffloor = NULL;
+	game->player = NULL;
+	game->wall = NULL;
+	game->two_d_map = NULL;	
+}
+
+
 int32_t	main(void)
 {
-	mlx_t	*mlx;
-	mlx = mlx_init(2100, 1700, "starwars", true);
-	Game game = {100, 100, 100, 100, 0, 0, 0, 0, mlx, NULL, NULL, NULL, NULL, NULL, NULL};
-	ft_makeimg(&game);
-	char *map = ft_filetomap(&game);
+	t_game	game;
+	char	*map;
+
+	init(&game);
+
+	map = ft_filetomap(&game);
 	game.two_d_map = ft_split(map, '\n');
-	display_map(&game);
-	if (ft_mapcheck(game) == 0)
+
+	// GRID CHECK
+	int i = 0;
+	int o = 0;
+	printf("\n\n\n");
+	while (i < 4)
 	{
-		mlx_close_window(game.mlx);
+		while (o < 6)
+		{
+			printf("%c", game.two_d_map[i][o]);
+			o++;
+		}
+		o = 0;
+		i++;
+		printf("\n");
+	}
+	// END CHECK
+	
+	display_map(&game);
+	if (ft_mapcheck(&game) == 0)
+	{
+		mlx_terminate(game.mlx);
 		ft_printf("ERROR: INVALID MAP");
 	}
-	mlx_key_hook(mlx, (void *)&ft_hooks, &game);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return 0;
+	mlx_key_hook(game.mlx, (void *)&ft_hooks, &game);
+	mlx_loop(game.mlx);
+	free(game.two_d_map);
+	mlx_terminate(game.mlx);
+	return (0);
 }
