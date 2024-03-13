@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/13 16:21:09 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/13 17:41:38 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/uio.h>
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 6
-# endif
 
 typedef struct t_data
 {

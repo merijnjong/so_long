@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/13 17:03:15 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/13 18:27:50 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_filetomap(t_game *game)
 	char	*map;
 	char	*temp;
 
-	fd = open("football.ber", O_RDONLY);
+	fd = open("swmap.ber", O_RDONLY);
 	map = NULL;
 	if (fd < 0)
 		return (NULL);
@@ -111,7 +111,7 @@ int32_t	main(void)
 	game.two_d_mapcheck = ft_split(map, '\n');
 	flood_fill(&game, 4, 1);
 	free(map);
-	if (display_map(&game) == 1 || ft_mapcheck(&game) == 0)
+	if (display_map(&game) == 1 || ft_mapcheck(&game) == 1)
 	{
 		ft_exitgame(&game);
 		ft_printf("Error\nINVALID MAP\n");
