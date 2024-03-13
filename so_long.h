@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/02/20 17:42:56 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/13 16:21:09 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #  define BUFFER_SIZE 6
 # endif
 
-typedef struct	s_data
+typedef struct t_data
 {
 	int			xpos;
 	int			ypos;
@@ -33,7 +33,10 @@ typedef struct	s_data
 	int			colnum;
 	int			exinum;
 	int			planum;
+	int			flonum;
 	int			ylength;
+	int			movecount;
+	int			countc;
 	mlx_t		*mlx;
 	mlx_image_t	*collectible;
 	mlx_image_t	*eexit;
@@ -41,15 +44,13 @@ typedef struct	s_data
 	mlx_image_t	*player;
 	mlx_image_t	*wall;
 	char		**two_d_map;
-} t_game;
+	char		**two_d_mapcheck;
+}	t_game;
 
 int		ft_mapcheck(t_game *game);
-char	*get_next_line(int fd);
-char	*ft_strjoin2(char *s1, char *s2);
-int		ft_strlen2(const char *str);
-char	*ft_strchr2(char *s, int c);
-char	*ft_free2(char **str);
 void	ft_makeimg(t_game *game);
 void	ft_exitgame(t_game *game);
+void	ft_hooks(mlx_key_data_t keydata, t_game *game);
+int		display_map(t_game *game);
 
 #endif
