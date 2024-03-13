@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:53:38 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/13 16:27:43 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/13 17:00:17 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,21 @@ int	ft_mapcheck(t_game *game)
 
 void	ft_exitgame(t_game *game)
 {
-	int	j;
+	int	i;
 
-	j = 0;
-	while (game->two_d_map[j])
+	i = 0;
+	while (game->two_d_map[i])
 	{
-		free(game->two_d_map[j]);
-		j++;
+		free(game->two_d_map[i]);
+		i++;
+	}
+	i = 0;
+	while (game->two_d_mapcheck[i])
+	{
+		free(game->two_d_mapcheck[i]);
+		i++;
 	}
 	free(game->two_d_map);
+	free(game->two_d_mapcheck);
 	mlx_close_window(game->mlx);
 }

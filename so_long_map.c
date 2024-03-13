@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:06:48 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/13 16:23:43 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/13 17:20:18 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	display_map(t_game *game)
 	while (game->two_d_map[0][game->width])
 		game->width++;
 	game->mlx = mlx_init(game->width * 100,
-			game->ylength * 100, "MOVETHATBOX", true);
+			game->ylength * 100, "FIFA25", true);
 	ft_makeimg(game);
 	while (y != game->ylength && x != game->width)
 	{
