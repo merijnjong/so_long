@@ -5,7 +5,7 @@ LIBFT 	:= ./libft
 
 HEADERS	:= -I ./include -I $(LIBMLX)/include -I$(LIBFT)
 LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm  $(LIBFT)/libft.a
-SRCS	:= so_long.c so_long_utils.c so_long_map.c so_long_player.c
+SRCS	:= so_long.c so_long_utils.c so_long_map.c so_long_move.c
 OBJS	:= ${SRCS:.c=.o}
 
 all: libmlx libft $(NAME)

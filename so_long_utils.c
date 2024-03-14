@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:53:38 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/14 13:50:54 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/14 16:43:54 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ int	ft_mapcheck3(t_game *game)
 		answer += i;
 		j++;
 	}
-	printf("%d\n", answer);
-	result = answer % j;
-	printf("%d\n", result);
 	if (answer % j != 0)
 		return (1);
 	return (0);
@@ -65,9 +62,7 @@ int	ft_mapcheck(t_game *game)
 void	ft_exitgame(t_game *game)
 {
 	int	i;
-	// int result = 59 % 6;
 
-	// printf("%d\n", result);
 	i = 0;
 	while (game->two_d_map[i])
 	{
