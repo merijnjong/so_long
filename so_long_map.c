@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:06:48 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/14 13:58:36 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/14 15:13:41 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	ft_makemap(char indicator, t_game *game, int x, int y)
 	int	result;
 
 	result = 0;
+	// if (indicator == '\n')
+	// 	return (1);
 	if (indicator == '0' || indicator == '1')
 		result = ft_makemap2(game->two_d_map[y][x], game, x, y);
 	else
