@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/14 16:40:07 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/14 16:59:41 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ typedef struct t_data
 	int			ypos;
 	int			width;
 	int			height;
-	int			ylength;
 	int			colnum;
 	int			exinum;
 	int			planum;
 	int			flonum;
+	int			ylength;
 	int			movecount;
 	int			countc;
 	mlx_t		*mlx;

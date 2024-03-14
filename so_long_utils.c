@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:53:38 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/14 16:43:54 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/14 16:59:55 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_mapcheck3(t_game *game)
 	int	result;
 
 	j = 0;
+	i = 0;
 	answer = 0;
 	result = 0;
 	while (game->two_d_map[j] != NULL && game->two_d_map[j][0] != '\0')

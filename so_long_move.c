@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:04:21 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/14 16:42:48 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/14 17:00:04 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	move_player3(t_game *game, uint32_t xdir, uint32_t ydir)
 	game->ypos += ydir;
 	mlx_image_to_window(game->mlx, game->eexit, prevxdir, prevydir);
 	mlx_image_to_window(game->mlx, game->player, game->xpos, game->ypos);
+	game->movecount += 1;
+	ft_printf("Number of movements: %d\n", game->movecount);
 }
 
 void	move_player2(t_game *game, uint32_t xdir, uint32_t ydir)

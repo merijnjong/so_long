@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/14 16:41:38 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/14 17:03:34 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	flood_fill(t_game *game, int x, int y)
 {
-	// if (x < 0 || x >= mapwidth || y < 0 || y >= 6 || game->two_d_mapcheck[y][x] == '1' || game->two_d_mapcheck[y][x] == 'N')
+	// if (x < 0 || x >= game->mapwidth || y < 0 || y >= game->mapheight
+	// 	|| game->two_d_mapcheck[y][x] == '1'
+	// 	|| game->two_d_mapcheck[y][x] == 'N')
 	// 	return ;
 	if (game->two_d_mapcheck[y][x] == '1' || game->two_d_mapcheck[y][x] == 'N')
 		return ;
@@ -39,7 +41,7 @@ char	*ft_filetomap(t_game *game)
 	char	*map;
 	char	*temp;
 
-	fd = open("test.ber", O_RDONLY);
+	fd = open("swmap.ber", O_RDONLY);
 	map = NULL;
 	if (fd < 0)
 		return (NULL);
