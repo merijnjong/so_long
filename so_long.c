@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/13 18:27:50 by mjong            ###   ########.fr       */
+/*   Updated: 2024/03/14 15:04:45 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_filetomap(t_game *game)
 	char	*map;
 	char	*temp;
 
-	fd = open("swmap.ber", O_RDONLY);
+	fd = open("test.ber", O_RDONLY);
 	map = NULL;
 	if (fd < 0)
 		return (NULL);

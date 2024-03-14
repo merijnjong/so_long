@@ -1,5 +1,5 @@
 NAME	:= fifa25
-CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast 
+CFLAGS	:= -g -o -Wextra -Wall -Werror -Wunreachable-code -Ofast 
 LIBMLX	:= ./MLX42
 LIBFT 	:= ./libft
 
