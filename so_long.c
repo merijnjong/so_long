@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/08 17:14:31 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/08 17:48:53 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int32_t	main(int argc, char *argv[])
 	free(map);
 	if (display_map(&game) == 1)
 		ft_exitgame(&game, "fail");
-	flood_fill(&game, 4, 1);
+	flood_fill(&game, 1, 1);
 	if (ft_mapcheck(&game) == 1)
 		ft_exitgame(&game, "fail");
 	mlx_key_hook(game.mlx, (void *)&ft_hooks, &game);

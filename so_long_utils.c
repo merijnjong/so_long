@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:53:38 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/08 17:09:05 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/08 17:42:30 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	ft_mapcheck(t_game *game)
 	int	result;
 
 	result = game->colnum + game->exinum + game->planum + game->flonum;
+	printf("result: %d\n", result);
+	printf("countc: %d\n", game->countc);
 	if (result != game->countc)
 		return (1);
 	if (game->colnum < 1 || game->exinum != 1 || game->planum != 1)
