@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:04:21 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/14 17:00:04 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/08 17:32:46 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	move_player_e(t_game *game, uint32_t xdir, uint32_t ydir)
 	{
 		move_player2(game, xdir, ydir);
 		ft_printf("YOU WIN!\n");
-		ft_exitgame(game);
+		ft_exitgame(game, "success");
 	}
 }
 
@@ -70,7 +70,8 @@ void	move_player(t_game *game, uint32_t xdir, uint32_t ydir)
 	y = (game->ypos + ydir) / 100;
 	prevxdir = game->xpos;
 	prevydir = game->ypos;
-	if (game->two_d_map[prevydir / 100][prevxdir / 100] == 'E')
+	if (game->two_d_map[prevydir / 100][prevxdir / 100] == 'E'
+		&& game->two_d_map[y][x] != '1')
 		move_player3(game, xdir, ydir);
 	else if (game->two_d_map[y][x] == '0' || game->two_d_map[y][x] == 'P')
 		move_player2(game, xdir, ydir);
@@ -78,7 +79,6 @@ void	move_player(t_game *game, uint32_t xdir, uint32_t ydir)
 	{
 		game->colnum--;
 		move_player2(game, xdir, ydir);
-		game->two_d_map[y][x] = '0';
 	}
 	else if (game->two_d_map[y][x] == 'E')
 		move_player_e(game, xdir, ydir);
@@ -94,10 +94,7 @@ void	ft_hooks(mlx_key_data_t keydata, t_game *game)
 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
 	{
 		if (keydata.key == MLX_KEY_ESCAPE)
-		{
-			ft_printf("EXITED GAME\n");
-			ft_exitgame(game);
-		}
+			ft_exitgame(game, "exit");
 		if (keydata.key == MLX_KEY_W)
 			ydir = -100;
 		if (keydata.key == MLX_KEY_A)

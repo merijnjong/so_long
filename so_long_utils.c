@@ -6,39 +6,50 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:53:38 by mjong             #+#    #+#             */
-/*   Updated: 2024/03/14 16:59:55 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/08 17:09:05 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ft_mapcheck3(t_game *game)
+int	ft_linelen(char *line)
 {
-	int	j;
 	int	i;
-	int	answer;
-	int	result;
 
-	j = 0;
 	i = 0;
-	answer = 0;
-	result = 0;
-	while (game->two_d_map[j] != NULL && game->two_d_map[j][0] != '\0')
+	while (line[i] && line[i] != '\n')
+		i++;
+	return (i);
+}
+
+int	ft_rect_check(t_game *game, char *argv[])
+{
+	int			temp;
+	int			fd;
+	char		*one_line;
+	static int	x_end = 0;
+	static int	y_end = 0;
+
+	temp = 0;
+	fd = open(argv[1], O_RDONLY);
+	one_line = get_next_line(fd);
+	temp = ft_linelen(one_line);
+	while (one_line != NULL)
 	{
-		i = 0;
-		while (game->two_d_map[j][i] != '\0')
-		{
-			i++;
-		}
-		answer += i;
-		j++;
+		x_end = ft_linelen(one_line);
+		if (x_end != temp)
+			return (1);
+		game->num += ft_strlen(one_line);
+		ft_free2(&one_line);
+		one_line = get_next_line(fd);
+		y_end++;
 	}
-	if (answer % j != 0)
-		return (1);
+	ft_free2(&one_line);
+	close(fd);
 	return (0);
 }
 
-int	ft_mapcheck2(t_game *game)
+int	ft_mapcheck(t_game *game)
 {
 	int	result;
 
@@ -50,21 +61,10 @@ int	ft_mapcheck2(t_game *game)
 	return (0);
 }
 
-int	ft_mapcheck(t_game *game)
+void	ft_exitgame(t_game *game, char *msg)
 {
-	int	result;
+	static int	i = 0;
 
-	result = 0;
-	if (ft_mapcheck2(game) == 1 || ft_mapcheck3(game) == 1)
-		return (1);
-	return (0);
-}
-
-void	ft_exitgame(t_game *game)
-{
-	int	i;
-
-	i = 0;
 	while (game->two_d_map[i])
 	{
 		free(game->two_d_map[i]);
@@ -79,4 +79,11 @@ void	ft_exitgame(t_game *game)
 	free(game->two_d_map);
 	free(game->two_d_mapcheck);
 	mlx_close_window(game->mlx);
+	if (ft_strncmp(msg, "fail", 4) == 0)
+	{
+		ft_printf("Error\nINVALID MAP\n");
+		exit(EXIT_FAILURE);
+	}
+	else if (ft_strncmp(msg, "exit", 4) == 0)
+		ft_printf("EXITED GAME\n");
 }

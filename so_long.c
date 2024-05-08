@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/04/30 14:43:29 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/08 17:14:31 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,15 @@
 
 void	flood_fill(t_game *game, int x, int y)
 {
-	// if (x < 0 || x >= game->mapwidth || y < 0 || y >= game->mapheight
-	// 	|| game->two_d_mapcheck[y][x] == '1'
-	// 	|| game->two_d_mapcheck[y][x] == 'N')
-	// 	return ;
 	if (game->two_d_mapcheck[y][x] == '1' || game->two_d_mapcheck[y][x] == 'N')
 		return ;
-	if (game->two_d_mapcheck[y][x] == 'C')
+	else if (game->two_d_mapcheck[y][x] == 'C')
 		game->countc++;
-	if (game->two_d_mapcheck[y][x] == 'E')
+	else if (game->two_d_mapcheck[y][x] == 'E')
 		game->countc++;
-	if (game->two_d_mapcheck[y][x] == 'P')
+	else if (game->two_d_mapcheck[y][x] == 'P')
 		game->countc++;
-	if (game->two_d_mapcheck[y][x] == '0')
+	else if (game->two_d_mapcheck[y][x] == '0')
 		game->countc++;
 	game->two_d_mapcheck[y][x] = 'N';
 	flood_fill(game, x + 1, y);
@@ -35,16 +31,19 @@ void	flood_fill(t_game *game, int x, int y)
 	flood_fill(game, x, y - 1);
 }
 
-char	*ft_filetomap(t_game *game)
+char	*ft_filetomap(t_game *game, char *argv[])
 {
 	int		fd;
 	char	*map;
 	char	*temp;
 
-	fd = open("./maps/football.ber", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	map = NULL;
-	if (fd < 0)
-		return (NULL);
+	if (fd < 0 || ft_rect_check(game, argv) == 1)
+	{
+		ft_printf("Error\nINVALID MAP\n");
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 	{
 		temp = get_next_line(fd);
@@ -94,6 +93,7 @@ void	init(t_game *game)
 	game->ylength = 0;
 	game->movecount = 0;
 	game->countc = 0;
+	game->num = 0;
 	game->mlx = NULL;
 	game->collectible = NULL;
 	game->eexit = NULL;
@@ -104,23 +104,26 @@ void	init(t_game *game)
 	game->two_d_mapcheck = NULL;
 }
 
-int32_t	main(void)
+int32_t	main(int argc, char *argv[])
 {
 	t_game	game;
 	char	*map;
 
+	if (!argv[1] || argc > 2)
+	{
+		ft_printf("Error\n");
+		exit(1);
+	}
 	init(&game);
-	map = ft_filetomap(&game);
+	map = ft_filetomap(&game, argv);
 	game.two_d_map = ft_split(map, '\n');
 	game.two_d_mapcheck = ft_split(map, '\n');
-	flood_fill(&game, 4, 1);
 	free(map);
-	if (display_map(&game) == 1 || ft_mapcheck(&game) == 1)
-	{
-		ft_exitgame(&game);
-		ft_printf("Error\nINVALID MAP\n");
-		exit(EXIT_FAILURE);
-	}
+	if (display_map(&game) == 1)
+		ft_exitgame(&game, "fail");
+	flood_fill(&game, 4, 1);
+	if (ft_mapcheck(&game) == 1)
+		ft_exitgame(&game, "fail");
 	mlx_key_hook(game.mlx, (void *)&ft_hooks, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
