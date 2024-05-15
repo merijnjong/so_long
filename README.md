@@ -11,6 +11,7 @@ External functions | • open, close, read, write, malloc, free, perror, strerro
 Libft authorized | Yes |
 
 ### Instructions
+./fifa25 maps/map.ber
 
 ### Game
 

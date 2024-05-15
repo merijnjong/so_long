@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:04:21 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/08 17:32:46 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/15 18:07:11 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	move_player_e(t_game *game, uint32_t xdir, uint32_t ydir)
 
 	x = (game->xpos + xdir) / 100;
 	y = (game->ypos + ydir) / 100;
-	if (game->two_d_map[y][x] == 'E' && game->colnum != 0)
+	if (game->two_d_map[y][x] == 'E' && game->colnum > 0)
 		move_player2(game, xdir, ydir);
-	else if (game->two_d_map[y][x] == 'E' && game->colnum == 0)
+	else if (game->two_d_map[y][x] == 'E' && game->colnum <= 0)
 	{
 		move_player2(game, xdir, ydir);
 		ft_printf("YOU WIN!\n");
@@ -78,6 +78,7 @@ void	move_player(t_game *game, uint32_t xdir, uint32_t ydir)
 	else if (game->two_d_map[y][x] == 'C')
 	{
 		game->colnum--;
+		printf("colnum: %d\n", game->colnum);
 		move_player2(game, xdir, ydir);
 	}
 	else if (game->two_d_map[y][x] == 'E')
