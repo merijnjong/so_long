@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/15 17:55:17 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/16 18:21:17 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	flood_fill(t_game *game, int x, int y)
 {
-	if (game->two_d_mapcheck[y][x] == '1' || game->two_d_mapcheck[y][x] == 'N')
+	if (x < 0 || y < 0 || x >= game->width || y >= game->height || game->two_d_mapcheck[y][x] == 'N' || game->two_d_mapcheck[y][x] == '1')
 		return ;
 	else if (game->two_d_mapcheck[y][x] == 'C')
 		game->countc++;
