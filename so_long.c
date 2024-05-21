@@ -1,20 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   so_long_backup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/16 18:21:17 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/21 14:52:01 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+int	ft_ber(char *line)
+{
+	int	len;
+	int	i;
+
+	i = 0;
+	len = ft_strlen(line);
+	if (len < 4)
+		return (1);
+	i = len - 4;
+	if (line[i] != '.' || line[i + 1] != 'b'
+		|| line[i + 2] != 'e' || line[i + 3] != 'r')
+		return (1);
+	return (0);
+}
+
 void	flood_fill(t_game *game, int x, int y)
 {
-	if (x < 0 || y < 0 || x >= game->width || y >= game->height || game->two_d_mapcheck[y][x] == 'N' || game->two_d_mapcheck[y][x] == '1')
+	if (x < 0 || x >= game->width || y < 0 || y >= game->height)
+	{
+		game->countc = -100000;
+		return ;
+	}
+	if (game->two_d_mapcheck[y][x] == '1' || game->two_d_mapcheck[y][x] == 'N')
 		return ;
 	else if (game->two_d_mapcheck[y][x] == 'C')
 		game->countc++;
@@ -109,7 +130,7 @@ int32_t	main(int argc, char *argv[])
 	t_game	game;
 	char	*map;
 
-	if (!argv[1] || argc > 2)
+	if (!argv[1] || argc > 2 || ft_ber(argv[1]))
 	{
 		ft_printf("Error\n");
 		exit(1);

@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/08 16:40:06 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/21 14:55:21 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void	ft_makeimg(t_game *game);
 void	ft_exitgame(t_game *game, char *msg);
 void	ft_hooks(mlx_key_data_t keydata, t_game *game);
 int		display_map(t_game *game);
+// void	flood_fill(t_game *game, int x, int y);
 
 #endif
