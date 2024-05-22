@@ -1,55 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_backup.c                                   :+:      :+:    :+:   */
+/*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/21 14:52:01 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/22 16:28:19 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ft_ber(char *line)
+int	ft_rect_check(t_game *game, char *argv[])
 {
-	int	len;
-	int	i;
+	int			temp;
+	int			fd;
+	char		*line;
 
-	i = 0;
-	len = ft_strlen(line);
-	if (len < 4)
-		return (1);
-	i = len - 4;
-	if (line[i] != '.' || line[i + 1] != 'b'
-		|| line[i + 2] != 'e' || line[i + 3] != 'r')
-		return (1);
-	return (0);
-}
-
-void	flood_fill(t_game *game, int x, int y)
-{
-	if (x < 0 || x >= game->width || y < 0 || y >= game->height)
+	temp = 0;
+	fd = open(argv[1], O_RDONLY);
+	line = get_next_line(fd);
+	temp = ft_linelen(line);
+	while (line != NULL)
 	{
-		game->countc = -100000;
-		return ;
+		game->width = ft_linelen(line);
+		if (game->width != temp)
+		{
+			ft_free2(&line);
+			return (1);
+		}
+		game->num += ft_strlen(line);
+		ft_free2(&line);
+		line = get_next_line(fd);
+		game->height++;
 	}
-	if (game->two_d_mapcheck[y][x] == '1' || game->two_d_mapcheck[y][x] == 'N')
-		return ;
-	else if (game->two_d_mapcheck[y][x] == 'C')
-		game->countc++;
-	else if (game->two_d_mapcheck[y][x] == 'E')
-		game->countc++;
-	else if (game->two_d_mapcheck[y][x] == 'P')
-		game->countc++;
-	else if (game->two_d_mapcheck[y][x] == '0')
-		game->countc++;
-	game->two_d_mapcheck[y][x] = 'N';
-	flood_fill(game, x + 1, y);
-	flood_fill(game, x - 1, y);
-	flood_fill(game, x, y + 1);
-	flood_fill(game, x, y - 1);
+	ft_free2(&line);
+	close(fd);
+	return (0);
 }
 
 char	*ft_filetomap(t_game *game, char *argv[])
@@ -76,31 +64,6 @@ char	*ft_filetomap(t_game *game, char *argv[])
 	}
 	close(fd);
 	return (map);
-}
-
-void	ft_makeimg(t_game *game)
-{
-	mlx_texture_t	*c;
-	mlx_texture_t	*e;
-	mlx_texture_t	*f;
-	mlx_texture_t	*p;
-	mlx_texture_t	*w;
-
-	c = mlx_load_png("./assets/collectible.png");
-	e = mlx_load_png("./assets/exit.png");
-	f = mlx_load_png("./assets/floor.png");
-	p = mlx_load_png("./assets/player.png");
-	w = mlx_load_png("./assets/wall.png");
-	game->collectible = mlx_texture_to_image(game->mlx, c);
-	game->eexit = mlx_texture_to_image(game->mlx, e);
-	game->ffloor = mlx_texture_to_image(game->mlx, f);
-	game->player = mlx_texture_to_image(game->mlx, p);
-	game->wall = mlx_texture_to_image(game->mlx, w);
-	mlx_delete_texture(c);
-	mlx_delete_texture(e);
-	mlx_delete_texture(f);
-	mlx_delete_texture(p);
-	mlx_delete_texture(w);
 }
 
 void	init(t_game *game)
@@ -130,7 +93,7 @@ int32_t	main(int argc, char *argv[])
 	t_game	game;
 	char	*map;
 
-	if (!argv[1] || argc > 2 || ft_ber(argv[1]))
+	if (!argv[1] || argc > 2 || ft_bercheck(argv[1]))
 	{
 		ft_printf("Error\n");
 		exit(1);
@@ -140,11 +103,11 @@ int32_t	main(int argc, char *argv[])
 	game.two_d_map = ft_split(map, '\n');
 	game.two_d_mapcheck = ft_split(map, '\n');
 	free(map);
-	if (display_map(&game) == 1)
-		ft_exitgame(&game, "fail");
 	flood_fill(&game, 1, 1);
+	elementcheck1(&game);
 	if (ft_mapcheck(&game) == 1)
 		ft_exitgame(&game, "fail");
+	display_map(&game);
 	mlx_key_hook(game.mlx, (void *)&ft_hooks, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);

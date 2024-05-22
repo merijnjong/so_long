@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:52:52 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/21 14:55:21 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/22 16:32:34 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,20 @@ typedef struct t_data
 	char		**two_d_mapcheck;
 }	t_game;
 
+// so_long_check.c //
+int		ft_bercheck(char *line);
+void	flood_fill(t_game *game, int x, int y);
+void	elementcheck1(t_game *game);
 int		ft_mapcheck(t_game *game);
-int		ft_rect_check(t_game *game, char *argv[]);
-void	ft_makeimg(t_game *game);
-void	ft_exitgame(t_game *game, char *msg);
+
+// so_long_display.c // 
+void	display_map(t_game *game);
+
+// so_long_move.c // 
 void	ft_hooks(mlx_key_data_t keydata, t_game *game);
-int		display_map(t_game *game);
-// void	flood_fill(t_game *game, int x, int y);
+
+// so_long_utils.c //
+void	ft_exitgame(t_game *game, char *msg);
+int		ft_linelen(char *line);
 
 #endif
