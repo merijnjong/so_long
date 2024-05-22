@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:06:48 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/22 16:49:17 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/22 18:13:47 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	display_map(t_game *game)
 	y = 0;
 	game->mlx = mlx_init(game->width * 100,
 			game->ylength * 100, "FIFA25", true);
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	ft_makeimg(game);
 	while (y != game->ylength && x != game->width)
 	{
