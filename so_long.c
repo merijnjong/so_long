@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:20:51 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/22 16:28:19 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/22 16:54:12 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ int32_t	main(int argc, char *argv[])
 
 	if (!argv[1] || argc > 2 || ft_bercheck(argv[1]))
 	{
-		ft_printf("Error\n");
+		ft_printf("Error, wrong input\n");
+		ft_printf("Correct input: ./movethebox maps/map.ber");
 		exit(1);
 	}
 	init(&game);

@@ -1,4 +1,4 @@
-NAME	:= fifa25
+NAME	:= movethebox
 CFLAGS	:= -g -o -Wextra -Wall -Werror -Wunreachable-code -Ofast 
 LIBMLX	:= ./MLX42
 LIBFT 	:= ./libft
