@@ -1,4 +1,4 @@
-NAME	:= movethebox
+NAME	:= so_long
 CFLAGS	:= -g -o -Wextra -Wall -Werror -Wunreachable-code -Ofast 
 LIBMLX	:= ./MLX42
 LIBFT 	:= ./libft
