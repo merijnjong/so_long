@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_map.c                                      :+:      :+:    :+:   */
+/*   so_long_display.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:06:48 by mjong             #+#    #+#             */
-/*   Updated: 2024/05/22 16:15:38 by mjong            ###   ########.fr       */
+/*   Updated: 2024/05/22 16:49:17 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	ft_makeimg(t_game *game)
 	mlx_texture_t	*p;
 	mlx_texture_t	*w;
 
-	c = mlx_load_png("./assets/collectible.png");
-	e = mlx_load_png("./assets/exit.png");
-	f = mlx_load_png("./assets/floor.png");
-	p = mlx_load_png("./assets/player.png");
-	w = mlx_load_png("./assets/wall.png");
+	c = mlx_load_png("./textures/collectible.png");
+	e = mlx_load_png("./textures/exit.png");
+	f = mlx_load_png("./textures/floor.png");
+	p = mlx_load_png("./textures/player.png");
+	w = mlx_load_png("./textures/wall.png");
 	game->collectible = mlx_texture_to_image(game->mlx, c);
 	game->eexit = mlx_texture_to_image(game->mlx, e);
 	game->ffloor = mlx_texture_to_image(game->mlx, f);
