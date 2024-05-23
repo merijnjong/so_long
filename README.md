@@ -4,7 +4,6 @@ eating some fish. Instead of a dolphin, fish, and the Earth, I can use any chara
 collectible and any place I want.
 Program name | so_long |
 |:--- |:---
-Program name | so_long |
 Turn in files | [Makefile](https://github.com/merijnjong/so_long/blob/main/Makefile), [so_long.h](https://github.com/merijnjong/so_long/blob/main/so_long.h), [so_long.c](https://github.com/merijnjong/so_long/blob/main/so_long.c), [so_long_check.c](https://github.com/merijnjong/so_long/blob/main/so_long_check.c), [so_long_display.c](https://github.com/merijnjong/so_long/blob/main/so_long_display.c),<br />[so_long_move.c](https://github.com/merijnjong/so_long/blob/main/so_long_move.c), [so_long_utils.c](https://github.com/merijnjong/so_long/blob/main/so_long_utils.c), [maps](https://github.com/merijnjong/so_long/tree/main/maps), [textures](https://github.com/merijnjong/so_long/tree/main/assets) |
 Makefile | NAME, all, clean, fclean, re |
 Arguments | A map in format *.ber |
